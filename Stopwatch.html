@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .stopwatch {
+    font-size: 24px;
+    margin: 20px;
+  }
+  body{
+   background-color:lightblue;
+   }
+</style>
+</head>
+<center>
+<body>
+<h1><b>Stopwatch</b></h1>
+<div class="stopwatch">00:00:00</div>
+<button id="startStopButton">Start</button>
+<button id="resetButton">Reset</button>
+
+<script>
+let timerInterval;
+let running = false;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+function startStop() {
+  if (!running) {
+    timerInterval = setInterval(updateTimer, 1000);
+    running = true;
+    document.getElementById("startStopButton").textContent = "Stop";
+  } else {
+    clearInterval(timerInterval);
+    running = false;
+    document.getElementById("startStopButton").textContent = "Start";
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  running = false;
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  updateDisplay();
+  document.getElementById("startStopButton").textContent = "Start";
+}
+
+function updateTimer() {
+  seconds++;
+  if (seconds === 60) {
+    seconds = 0;
+    minutes++;
+    if (minutes === 60) {
+      minutes = 0;
+      hours++;
+    }
+  }
+  updateDisplay();
+}
+
+function updateDisplay() {
+  const timeString = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+  document.querySelector(".stopwatch").textContent = timeString;
+}
+
+function formatTime(value) {
+  return value < 10 ? `0${value}` : value;
+}
+
+document.getElementById("startStopButton").addEventListener("click", startStop);
+document.getElementById("resetButton").addEventListener("click", resetTimer);
+
+</script>
+
+</body>
+</center>
+</html>
